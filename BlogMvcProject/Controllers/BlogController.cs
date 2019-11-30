@@ -17,7 +17,7 @@ namespace BlogMvcProject.Controllers
         // GET: Blog
         public ActionResult Index()
         {
-            var blogs = db.Blogs.Include(b => b.Category);
+            var blogs = db.Blogs.Include(b => b.Category).OrderByDescending(i => i.AddTime);
             return View(blogs.ToList());
         }
 
@@ -48,10 +48,13 @@ namespace BlogMvcProject.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,PhotoPath,Content,AddTime,Confirm,Homepage,CategoryId")] Blog blog)
+        public ActionResult Create([Bind(Include = "Title,Description,PhotoPath,Content,CategoryId")] Blog blog)
         {
             if (ModelState.IsValid)
             {
+                blog.AddTime = DateTime.Now;
+
+
                 db.Blogs.Add(blog);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,13 +85,27 @@ namespace BlogMvcProject.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,PhotoPath,Content,AddTime,Confirm,Homepage,CategoryId")] Blog blog)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,PhotoPath,Content,Confirm,Homepage,CategoryId")] Blog blog)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(blog).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var entity = db.Blogs.Find(blog.Id);
+                if (entity != null)
+                {
+                    entity.Title = blog.Title;
+                    entity.Description = blog.Description;
+                    entity.PhotoPath = blog.PhotoPath;
+                    entity.Content = blog.Content;
+                    entity.Confirm = blog.Confirm;
+                    entity.Homepage = blog.Homepage;
+                    entity.Category = blog.Category;
+
+                    db.SaveChanges();
+
+                    TempData["Blog"] = entity;
+
+                    return RedirectToAction("Index");
+                }
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "CategoryName", blog.CategoryId);
             return View(blog);

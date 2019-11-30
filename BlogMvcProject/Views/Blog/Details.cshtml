@@ -4,79 +4,42 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Blog</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.CategoryName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.CategoryName)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhotoPath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhotoPath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AddTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AddTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Confirm)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Confirm)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Homepage)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Homepage)
-        </dd>
-
-    </dl>
-</div>
+<h1>@Model.Title</h1>
+<hr />
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    <span class="glyphicon glyphicon-time"></span>
+    @Model.AddTime
 </p>
+<hr />
+<img src="http://placehold.it/900x300" alt="Alternate Text" class="img-responsive" />
+<hr />
+<blockquote>
+    <p>
+        @Model.Description
+    </p>
+</blockquote>
+<p>
+    @Model.Content
+</p>
+
+
+
+@section RightColumn
+{
+    <div class="well">
+        <h4>Blog Search</h4>
+        <div class="input-group">
+            <input type="text" class="form-control">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+        </div>
+        <!-- /.input-group -->
+    </div>
+    @{Html.RenderAction("CategoryList", "Category"); }
+}
