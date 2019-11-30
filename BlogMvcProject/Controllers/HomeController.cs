@@ -16,7 +16,20 @@ namespace BlogMvcProject.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View(context.Blogs.ToList());
+            var blogs = context.Blogs
+                               .Select(i => new BlogModel()
+                               {
+                                   Id = i.Id,
+                                   Title = i.Title.Length > 100 ? i.Title.Substring(0, 100) + "..." : i.Title,
+                                   Description=i.Description,
+                                   AddTime=i.AddTime,
+                                   Homepage=i.Homepage,
+                                   Confirm=i.Confirm,
+                                   PhotoPath=i.PhotoPath
+                               })
+                               .Where(i => i.Confirm == true && i.Homepage == true);
+
+            return View(blogs.ToList());
         }
     }
 }

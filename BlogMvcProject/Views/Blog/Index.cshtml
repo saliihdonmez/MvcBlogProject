@@ -4,12 +4,14 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Blog List</h2>
+<hr />
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Blog", "Create",null,new {@class="btn btn-primary" })
 </p>
-<table class="table">
+<hr />
+<table class="table table-bordered table-hover table-striped" >
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Category.CategoryName)
@@ -35,7 +37,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Homepage)
         </th>
-        <th></th>
+        <th style="width:170px;"></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -59,15 +61,29 @@
             @Html.DisplayFor(modelItem => item.AddTime)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Confirm)
+            @if (item.Confirm)
+            {
+                <label class="label label-success">Confirmed</label>
+            }
+            else
+            {
+                <label class="label label-danger">Waiting for confirm</label>
+            }            
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Homepage)
+            @if (item.Homepage)
+            {
+                <label class="label label-success">Homepage</label>
+            }
+            else
+            {
+               <label class="label label-danger">Not Homepage</label>    
+            }
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-xs" })
+            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary btn-xs" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
         </td>
     </tr>
 }
