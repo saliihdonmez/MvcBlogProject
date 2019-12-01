@@ -15,5 +15,6 @@ namespace BlogMvcProject.Models
         public DateTime AddTime { get; set; }
         public bool Confirm { get; set; }
         public bool Homepage { get; set; }
+        public int CategoryId { get; set; }
     }
 }
